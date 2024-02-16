@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alasmar Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+    
+    
+            .image {
+            width: 50%;
+            height:50%;
+            text-align: center;
+            margin-bottom: 10px; /* Add margin to create space between image and div */
+        }
+
+        .image img {
+            max-width: 50%;
+            max-height: 50%;
+          width: 50%;
+            height:50%;
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%; /* Add border-radius to make the images circular */
+        }
+        /* body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(ellipse at top left, #334455 0%, #112233 100%);
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            height: 100%;
+            background-image: url('store.jpg'); */
+             /* Updated to local image URL */
+            /* background-size: cover; */
+        /* } */
+
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-circle {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            width: 400px;
+            margin-left: -200px;
+            font: 300 30px/1 'Open Sans Condensed', sans-serif;
+            text-align: center;
+            text-transform: uppercase;
+            color: #fff;
+            animation: credits 60s linear infinite;
+        }
+
+        .image {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px; /* Add margin to create space between image and div */
+        }
+
+        .image img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .text {
+            width: 100%;
+            padding: 10px;
+            color: #fff;
+            margin-bottom: 5px;
+            box-sizing: border-box;
+        }
+
+        .subtext {
+            width: 100%;
+            padding: 5px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            max-width: 200px; /* Adjust the size as needed */
+            max-height: 100px; /* Adjust the size as needed */
+            z-index: 9998;
+        }
+
+        .total-customers {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            color: #fff;
+        }
+
+        @keyframes credits {
+            0%, 100% {
+                top: 100%;
+            }
+            50% {
+                top: -500%;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+        <css-doodle>
+            <style>
+              --color: #51eaea,
+              #fffde1,
+              #ff9d76,
+              #FB3569;
+              @grid: 30x1 / 100vw 100vh / #270f34;
+          
+              :container {
+                perspective: 30vmin;
+                --deg: @p(-180deg, 180deg);
+              }
+          
+              :after,
+              :before {
+                content: '';
+                background: @p(--color);
+                @place: @r(100%) @r(100%);
+                @size: @r(6px);
+                @shape: heart;
+              }
+          
+              @place: center;
+              @size: 18vmin;
+              box-shadow: @m2(0 0 50px @p(--color));
+              background: @m100(radial-gradient(@p(--color) 50%, transparent 0) @r(-20%, 120%) @r(-20%, 100%) / 1px 1px no-repeat);
+              will-change: transform,
+              opacity;
+              animation: scale-up 12s linear infinite;
+              animation-delay: calc(-12s / @I * @i);
+          
+              @keyframes scale-up {
+          
+                0%,
+                95.01%,
+                100% {
+                  transform: translateZ(0) rotate(0);
+                  opacity: 0;
+                }
+          
+                10% {
+                  opacity: 1;
+                }
+          
+                95% {
+                  transform:
+                    translateZ(35vmin) rotateZ(var(--deg));
+                }
+              }
+            </style>
+          </css-doodle>
+</head>
+
+<body>
+    
+    
+
+    <img src="alasmar.png" alt="Logo" class="logo">
+     <!-- Updated to local image URL -->
+
+    <div class="loading-container">
+        <div class="loading-circle"></div>
+    </div>
+
+    <div class='wrapper' id="contentWrapper">
+        <!-- Content will be dynamically generated here -->
+    </div>
+
+    <div class="total-customers" id="totalCustomers"></div>
+
+
+    <!-- Lists containing titles, subtitles, and image URLs -->
+    <!-- using css-doodle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/css-doodle/0.38.4/css-doodle.min.js"></script>
+
+<script>
+    // Fetch titles from titles.txt
+    fetch('titles.txt')
+        .then(response => response.text())
+        .then(titleData => {
+            const titles = titleData.split(',');
+
+            // Fetch subtitles from subtitles.txt
+            return fetch('subtitles.txt')
+                .then(response => response.text())
+                .then(subtitleData => {
+                    const subtitles = subtitleData.split(',');
+
+                    // Fetch image URLs from image_urls.txt
+                    return fetch('image_urls.txt')
+                        .then(response => response.text())
+                        .then(imageUrlData => {
+                            const imageUrls = imageUrlData.split(',');
+
+                            // Get the content wrapper
+                            const contentWrapper = document.getElementById("contentWrapper");
+
+                            // Generate content based on lists
+                            for (let i = 0; i < titles.length; i++) {
+                                const title = titles[i].trim(); // Trim to remove leading/trailing spaces
+                                const subtitle = subtitles[i].trim(); // Trim to remove leading/trailing spaces
+                                const imageUrl = imageUrls[i].trim(); // Trim to remove leading/trailing spaces
+
+                                // Create image element
+                                const imageElement = document.createElement("div");
+                                imageElement.classList.add("image");
+                                imageElement.innerHTML = `<img src="${imageUrl}" alt="Image ${i + 1}">`;
+                                contentWrapper.appendChild(imageElement);
+
+                                // Create title element
+                                const titleElement = document.createElement("div");
+                                titleElement.classList.add("text");
+                                titleElement.textContent = title;
+                                contentWrapper.appendChild(titleElement);
+
+                                // Create subtitle element
+                                const subtitleElement = document.createElement("div");
+                                subtitleElement.classList.add("subtext");
+                                subtitleElement.textContent = subtitle;
+                                contentWrapper.appendChild(subtitleElement);
+                            }
+
+                            // Display total number of items
+                            const totalItems = titles.length;
+                            document.getElementById("totalCustomers").textContent = `Total Customers : ${totalItems}`;
+
+                            // Hide loading container when content is loaded
+                            document.querySelector(".loading-container").style.display = "none";
+                        })
+                        .catch(error => console.error('Error fetching image URLs:', error));
+                })
+                .catch(error => console.error('Error fetching subtitles:', error));
+        })
+        .catch(error => console.error('Error fetching titles:', error));
+</script>
+
+    
+    
+
+    <!-- Additional JavaScript can be added here -->
+
+</body>
+
+</html>
