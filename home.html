@@ -10,10 +10,12 @@
     
     
             .image {
-            width: 50%;
-            height:50%;
+            width: 200px;
+            border-radius: 50%;
+            /* height:50%; */
             text-align: center;
-            margin-bottom: 10px; /* Add margin to create space between image and div */
+            margin-bottom: 10px; 
+            /* Add margin to create space between image and div */
         }
 
         .image img {
@@ -57,36 +59,53 @@
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            animation: spin 1s linear infinite;
+            animation: spin 1s linear alternate;
         }
 
         .wrapper {
-            display: flex;
-            flex-wrap: wrap;
+            display: block;
+            /* flex-direction: row; */
+            /* flex-wrap: wrap; */
+            /* position: fixed; */
+            /* top: 100%; */
+            /* left: 50%; */
             position: absolute;
-            top: 100%;
-            left: 50%;
+            bottom: 10px;
+            /* top: 50%; */
+        
             width: 400px;
-            margin-left: -200px;
+            right: 43%;
+            left: 37%;
+            top: 39%;
+            margin: 0 auto;
+            /* margin-left: -200px; */
             font: 300 30px/1 'Open Sans Condensed', sans-serif;
             text-align: center;
             text-transform: uppercase;
             color: #fff;
-            animation: credits 60s linear infinite;
+            /* animation: fade 30s linear  infinite; */
+            -webkit-animation: fadeinout 10s alternate;
+            animation: fadeinout 10s alternate;
         }
 
         .image {
             width: 100%;
             text-align: center;
-            margin-bottom: 10px; /* Add margin to create space between image and div */
-        }
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            height: 50%;
+             /* Add margin to create space between image and div */
+        
+    } 
 
+       
         .image img {
             max-width: 100%;
-            height: auto;
+            height: 175px;
             display: block;
             margin: 0 auto;
-        }
+        } 
 
         .text {
             width: 100%;
@@ -115,15 +134,40 @@
         .total-customers {
             position: absolute;
             bottom: 10px;
-            left: 50%;
+            right: 70%;
             transform: translateX(-50%);
             font-size: 18px;
             color: #fff;
+        }
+        .total-customers-container{
+            display: flex;
+        }
+        
+        .total-customers-left {
+            position: absolute;
+            bottom: 10px;
+            right: 39%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            color: #fff;
+            float: left;
+        }
+        .total-customers-right {
+            margin-right:auto ;
+            position: absolute;
+            bottom: 10px;
+            left: 70%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            color: #fff;
+        
+  
         }
 
         @keyframes credits {
             0%, 100% {
                 top: 100%;
+                
             }
             50% {
                 top: -500%;
@@ -138,6 +182,52 @@
                 transform: rotate(360deg);
             }
         }
+     
+        @keyframes fade {
+            0%{
+                opacity: 1;
+            }
+            50%{
+                opacity: 1;
+            }
+           
+            100%{
+                opacity: 0;
+            }
+
+        }
+        /* .elementToFadeInAndOut {
+    width:200px;
+    height: 200px;
+    background: red;
+    -webkit-animation: fadeinout 4s linear forwards;
+    animation: fadeinout 4s linear forwards;
+} */
+
+@-webkit-keyframes fadeinout {
+  0% { opacity: 1; }
+  100% { opacity: 0;  }
+}
+
+@keyframes fadeinout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes fade-in {
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
     </style>
         <css-doodle>
             <style>
@@ -196,7 +286,7 @@
     
     
 
-    <img src="alasmar.png" alt="Logo" class="logo">
+    <!-- <img src="alasmar.png" alt="Logo" class="logo"> -->
      <!-- Updated to local image URL -->
 
     <div class="loading-container">
@@ -206,8 +296,14 @@
     <div class='wrapper' id="contentWrapper">
         <!-- Content will be dynamically generated here -->
     </div>
+    
+        <div class="total-customers-left" id="totalCustomers"></div>
+        <div class="total-customers-right" id="totalCustomersArabic"></div>
+   
+       
+    
 
-    <div class="total-customers" id="totalCustomers"></div>
+
 
 
     <!-- Lists containing titles, subtitles, and image URLs -->
@@ -216,6 +312,43 @@
 
 <script>
     // Fetch titles from titles.txt
+    function initializeComment(i,titles,subtitles,imageUrls){
+        const contentWrapper = document.getElementById("contentWrapper");
+
+        const title = titles[i].trim(); // Trim to remove leading/trailing spaces
+                                const subtitle = subtitles[i].trim(); // Trim to remove leading/trailing spaces
+                                const imageUrl = imageUrls[i].trim(); // Trim to remove leading/trailing spaces
+                                // create parent element 
+                                const parentElement = document.createElement("div");
+                                contentWrapper.appendChild(parentElement);
+
+
+
+
+                                // Create image element
+                                const imageElement = document.createElement("div");
+                                imageElement.classList.add("image");
+                                imageElement.innerHTML = `<img src="${imageUrl}" alt="Image ${i + 1}">`;
+                                // contentWrapper.appendChild(imageElement);
+                                parentElement.appendChild(imageElement);
+
+
+                                // Create title element
+                                const titleElement = document.createElement("div");
+                                titleElement.classList.add("text");
+                                titleElement.textContent = title;
+                                // contentWrapper.appendChild(titleElement);
+                                parentElement.appendChild(titleElement);
+
+
+                                // Create subtitle element
+                                const subtitleElement = document.createElement("div");
+                                subtitleElement.classList.add("subtext");
+                                subtitleElement.textContent = subtitle;
+                                // contentWrapper.appendChild(subtitleElement);
+                                parentElement.appendChild(subtitleElement);
+       
+    }
     fetch('titles.txt')
         .then(response => response.text())
         .then(titleData => {
@@ -235,35 +368,52 @@
 
                             // Get the content wrapper
                             const contentWrapper = document.getElementById("contentWrapper");
-
+                            const min = 0;
+                            const max = subtitles.length - 1;
+                            const random = Math.floor(Math.random() * (max - min + 1)) + min
+                            initializeComment(random,titles,subtitles,imageUrls);
+                            
                             // Generate content based on lists
-                            for (let i = 0; i < titles.length; i++) {
-                                const title = titles[i].trim(); // Trim to remove leading/trailing spaces
-                                const subtitle = subtitles[i].trim(); // Trim to remove leading/trailing spaces
-                                const imageUrl = imageUrls[i].trim(); // Trim to remove leading/trailing spaces
+                            // for (let i = 0; i < titles.length; i++) {
+                            //     const title = titles[i].trim(); // Trim to remove leading/trailing spaces
+                            //     const subtitle = subtitles[i].trim(); // Trim to remove leading/trailing spaces
+                            //     const imageUrl = imageUrls[i].trim(); // Trim to remove leading/trailing spaces
+                            //     // create parent element 
+                            //     const parentElement = document.createElement("div");
+                            //     contentWrapper.appendChild(parentElement);
 
-                                // Create image element
-                                const imageElement = document.createElement("div");
-                                imageElement.classList.add("image");
-                                imageElement.innerHTML = `<img src="${imageUrl}" alt="Image ${i + 1}">`;
-                                contentWrapper.appendChild(imageElement);
 
-                                // Create title element
-                                const titleElement = document.createElement("div");
-                                titleElement.classList.add("text");
-                                titleElement.textContent = title;
-                                contentWrapper.appendChild(titleElement);
 
-                                // Create subtitle element
-                                const subtitleElement = document.createElement("div");
-                                subtitleElement.classList.add("subtext");
-                                subtitleElement.textContent = subtitle;
-                                contentWrapper.appendChild(subtitleElement);
-                            }
+
+                            //     // Create image element
+                            //     const imageElement = document.createElement("div");
+                            //     imageElement.classList.add("image");
+                            //     imageElement.innerHTML = `<img src="${imageUrl}" alt="Image ${i + 1}">`;
+                            //     // contentWrapper.appendChild(imageElement);
+                            //     parentElement.appendChild(imageElement);
+
+
+                            //     // Create title element
+                            //     const titleElement = document.createElement("div");
+                            //     titleElement.classList.add("text");
+                            //     titleElement.textContent = title;
+                            //     // contentWrapper.appendChild(titleElement);
+                            //     parentElement.appendChild(titleElement);
+
+
+                            //     // Create subtitle element
+                            //     const subtitleElement = document.createElement("div");
+                            //     subtitleElement.classList.add("subtext");
+                            //     subtitleElement.textContent = subtitle;
+                            //     // contentWrapper.appendChild(subtitleElement);
+                            //     parentElement.appendChild(subtitleElement);
+
+                            // }
 
                             // Display total number of items
                             const totalItems = titles.length;
-                            document.getElementById("totalCustomers").textContent = `Total Customers : ${totalItems}`;
+                            // document.getElementById("totalCustomers").textContent = `Total Customers : ${totalItems}`;
+                            // document.getElementById("totalCustomersArabic").textContent = `عدد العملاء : ${totalItems}`;
 
                             // Hide loading container when content is loaded
                             document.querySelector(".loading-container").style.display = "none";

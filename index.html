@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          .container {
+            display: block;
+            /* flex-wrap: wrap; */
+            /* position: fixed; */
+            /* top: 100%; */
+            /* left: 50%; */
+            /* width: 400px;
+            margin-left: -200px;
+            font: 300 30px/1 'Open Sans Condensed', sans-serif;
+            text-align: center;
+            text-transform: uppercase;
+            color: #fff; */
+            /* animation: fade 30s linear  infinite; */
+            -webkit-animation: fadeinout 20s alternate;
+            animation: fadeinout 20s alternate;
+        }
+        @-webkit-keyframes fadeinout {
+  0% { opacity: 1; }
+  100% { opacity: 0;  }
+}
+
+@keyframes fadeinout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span>text</span>
+    </div>
+</body>
+</html>
